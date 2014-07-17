@@ -1,10 +1,10 @@
 define(
     [
       'javascripts/formView', 'javascripts/logListView', 'javascripts/paginationView',
-      'javascripts/humanReadableSize'
+      'javascripts/collectionInfoView'
     ],
     
-    function(FormView, LogListView, PaginationView, humanReadableSize) {
+    function(FormView, LogListView, PaginationView, CollectionInfoView) {
       
       return Backbone.View.extend({
        
@@ -34,21 +34,11 @@ define(
             eventBus : this.eventBus
           });
 
-          var $collectionInfo = $('#collection-info');
-          this.listenTo(this.eventBus, 'update:collection-info', function(stats) {
-            var infoTmpl = _.template("count:<%= count %>, size:<%= size %>, storageSize:<%= storageSize %>");
-            var v = {};
-            v.count = stats.count;
-            v.size = humanReadableSize(stats.size);
-            if (!stats.storageSize) {
-              v.storageSize = 'unlimited';
-            } else {
-              v.storageSize = humanReadableSize(stats.storageSize);
-            }
-            $collectionInfo.html(infoTmpl(v));
-            
+          new CollectionInfoView({
+            el : $('#collection-info'),
+            eventBus : this.eventBus
           });
-         
+          
           /*
            * sticky search bar to top if scroll down over it
            */ 
