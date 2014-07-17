@@ -1,7 +1,7 @@
 /*
  * Pagination area view
  */
-define([], function() {
+define([], function(humanReadableSize) {
   
   return Backbone.View.extend({
     
@@ -12,7 +12,7 @@ define([], function() {
     initialize : function(options) {
       
       this.eventBus = options.eventBus;
-      this.q = {
+      this.info = {
           params : {},
           pageNo : 1,
           limit : 20,
@@ -22,9 +22,9 @@ define([], function() {
       
       this.listenTo(this.eventBus, 'log:search', function(queryOption) {
         
-        this.q.params = queryOption.params || this.q.params;
-        this.q.pageNo = queryOption.pageNo || this.q.pageNo;
-        this.q.limit = queryOption.limit || this.q.limit;
+        this.info.params = queryOption.params || this.info.params;
+        this.info.pageNo = queryOption.pageNo || this.info.pageNo;
+        this.info.limit = queryOption.limit || this.info.limit;
         
         this.query();
         
@@ -35,21 +35,22 @@ define([], function() {
     query : function() {
       
       var that = this;
-      var q = this.q;
+      var info = this.info;
       
       $.get('/logs', {
         
-        queryStr : JSON.stringify(q.params),
-        pageNo : q.pageNo,
-        limit : q.limit
+         query : JSON.stringify(info.params),
+        pageNo : info.pageNo,
+         limit : info.limit
         
       }, function(result) {
         
         that.eventBus.trigger('log:refereshList', result.logs);
         
-        q.pageNo = result.pageNo;
-        q.limit = result.limit;
-        q.count = result.count;
+        info.pageNo = result.pageNo;
+        info.limit = result.limit;
+        info.count = result.count;
+        info.stats = result.stats;
         
         that.render();
         
@@ -68,11 +69,11 @@ define([], function() {
       var pageNo = $a.html();
       
       if ($a.is('.pg-prev')) {
-        this.q.pageNo--;
+        this.info.pageNo--;
       } else if ($a.is('.pg-next')) {
-        this.q.pageNo++;
+        this.info.pageNo++;
       } else {
-        this.q.pageNo = parseInt(pageNo);
+        this.info.pageNo = parseInt(pageNo);
       }
       
       this.query();
@@ -81,9 +82,9 @@ define([], function() {
     
     render : function() {
       
-      var pageNo = this.q.pageNo,
-          limit = this.q.limit,
-          count = this.q.count,
+      var pageNo = this.info.pageNo,
+          limit = this.info.limit,
+          count = this.info.count,
           maxPageCount = Math.ceil(count / limit)
       ;
 
@@ -129,7 +130,10 @@ define([], function() {
       } else {
         this.$pagination.append('<li><a href="#" class="pg-next">&raquo;</a></li>');
       }
+      
+      this.eventBus.trigger('update:collection-info', this.info.stats);
     }
     
   });
+  
 });

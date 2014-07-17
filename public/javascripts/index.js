@@ -1,9 +1,10 @@
 define(
     [
-      'javascripts/formView', 'javascripts/logListView', 'javascripts/paginationView'
+      'javascripts/formView', 'javascripts/logListView', 'javascripts/paginationView',
+      'javascripts/humanReadableSize'
     ],
     
-    function(FormView, LogListView, PaginationView) {
+    function(FormView, LogListView, PaginationView, humanReadableSize) {
       
       return Backbone.View.extend({
        
@@ -31,6 +32,21 @@ define(
           new LogListView({
             el : $logList,
             eventBus : this.eventBus
+          });
+
+          var $collectionInfo = $('#collection-info');
+          this.listenTo(this.eventBus, 'update:collection-info', function(stats) {
+            var infoTmpl = _.template("count:<%= count %>, size:<%= size %>, storageSize:<%= storageSize %>");
+            var v = {};
+            v.count = stats.count;
+            v.size = humanReadableSize(stats.size);
+            if (!stats.storageSize) {
+              v.storageSize = 'unlimited';
+            } else {
+              v.storageSize = humanReadableSize(stats.storageSize);
+            }
+            $collectionInfo.html(infoTmpl(v));
+            
           });
          
           /*
