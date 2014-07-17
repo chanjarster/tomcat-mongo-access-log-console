@@ -3,7 +3,6 @@ define([], function() {
   return Backbone.View.extend({
     
     events : {
-      'click #btn-toggle-form' : 'toggle',
       'click #btn-do-query' : 'query',
       'keypress form' : 'keypress'
     },
@@ -13,29 +12,12 @@ define([], function() {
       this.eventBus = options.eventBus;
       
       this.$conditions = this.$el.find('#conditions');
-      this.$toggleBtn = this.$el.find('#btn-toggle-form');
       this.$form = this.$el.find('form');
       
       // datepicker
       this.$el.find("[name='datetime{date}[gte]']").datepicker({ format : 'yyyy-mm-dd' });
       this.$el.find("[name='datetime{date}[lte]']").datepicker({ format : 'yyyy-mm-dd' });
       
-    },
-    
-    toggle : function(event) {
-      var that = this;
-      var $toggleBtn = this.$toggleBtn;
-      
-      this.$conditions.slideToggle(null, function() {
-        if ($(this).is(':hidden')) {
-          $toggleBtn.html('Open');
-          that.eventBus.trigger('view:scrollToBtn');
-        } else {
-          $toggleBtn.html('Close');
-        }
-        
-      });
-    
     },
     
     query : function() {
