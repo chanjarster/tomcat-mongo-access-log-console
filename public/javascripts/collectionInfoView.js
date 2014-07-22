@@ -13,18 +13,18 @@ define([], function(){
       return size + 'B';
     }
     if (size < M) {
-      return (size / K) + 'K';
+      return Math.round(size / K * 100) / 100 + 'K';
     }
     if (size < G) {
-      return (size / M) + 'M';
+      return Math.round(size / M * 100) / 100 + 'M';
     }
     if (size < T) {
-      return (size / G) + 'G';
+      return Math.round(size / G * 100) / 100 + 'G';
     }
     if (size < P) {
-      return (size / T) + 'T';
+      return Math.round(size / T * 100) / 100 + 'T';
     }
-    return (size / P) + 'P';
+    return Math.round(size / P * 100) / 100 + 'P';
 
   };
   

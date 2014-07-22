@@ -6,21 +6,26 @@ define([], function(humanReadableSize) {
   return Backbone.View.extend({
     
     events : {
-      'click a' : 'jump'
+      'click .pagination a'   : 'jump',
+      'click #btn-do-query'   : 'collectParams',
+      'click #btn-top-10-url' : 'top10url'
     },
     
     initialize : function(options) {
       
       this.eventBus = options.eventBus;
+      this.$stickyBuddy = options.$stickyBuddy;
+      this.$pagination = this.$el.find('.pagination');
       this.info = {
           params : {},
           pageNo : 1,
           limit : 20,
           count : 0
       };
-      this.$pagination = this.$el.find('.pagination');
+
+      this.sticky();
       
-      this.listenTo(this.eventBus, 'log:search', function(queryOption) {
+      this.listenTo(this.eventBus, 'query:do', function(queryOption) {
         
         this.info.params = queryOption.params || this.info.params;
         this.info.pageNo = queryOption.pageNo || this.info.pageNo;
@@ -30,6 +35,37 @@ define([], function(humanReadableSize) {
         
       }, this);
       
+    },
+    
+    sticky : function() {
+      /**
+       * make query bar sticky when scroll to top
+       */
+      var $window = $(window);
+      var $el = this.$el;
+      var $stickyBuddy = this.$stickyBuddy;
+      var elTop = $el.offset().top;
+      
+      this.listenTo(this.eventBus, 'view:scrollToBtn', function() {
+        if (!$el.is('.stickyBar')) {
+          smoothScroll.animateScroll(null, '#btn-do-query', { offset : 50 } );
+        }
+      });
+      
+      $window.unbind('scroll').scroll(function() {
+        
+        if(!$el.is('.stickyBar')) {
+          elTop = $el.offset().top;  
+        }
+        var sticky = $window.scrollTop() > Math.ceil(elTop) - 50;
+        $el.toggleClass('stickyBar', sticky);
+        $stickyBuddy.toggleClass('stickyBarBuddy', sticky);
+        
+      });
+    },
+    
+    collectParams : function() {
+      this.eventBus.trigger("query:collect-params");
     },
     
     query : function() {
@@ -78,6 +114,19 @@ define([], function(humanReadableSize) {
       
       this.query();
       event.preventDefault();
+    },
+    
+    top10url : function() {
+      $.get('/reports/top10url', {
+        
+        query : JSON.stringify(this.info.params)
+       
+     }, function(result) {
+       
+       console.log(result);
+       
+     }, 'json');
+      
     },
     
     render : function() {

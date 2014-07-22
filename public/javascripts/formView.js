@@ -3,8 +3,7 @@ define([], function() {
   return Backbone.View.extend({
     
     events : {
-      'click #btn-do-query' : 'query',
-      'keypress form' : 'keypress'
+      'keypress *' : 'keypress'
     },
     
     initialize : function(options) {
@@ -12,20 +11,19 @@ define([], function() {
       this.eventBus = options.eventBus;
       
       this.$conditions = this.$el.find('#conditions');
-      this.$form = this.$el.find('form');
       
       // datepicker
       this.$el.find("[name='datetime{date}[gte]']").datepicker({ format : 'yyyy-mm-dd' });
       this.$el.find("[name='datetime{date}[lte]']").datepicker({ format : 'yyyy-mm-dd' });
-      
+      this.listenTo(this.eventBus, 'query:collect-params', this.collectParams);
     },
     
-    query : function() {
+    collectParams : function() {
       
       var params = {};
       
       // build query condition
-      _.each(this.$form.serialize().split('&'), function(component, index) {
+      _.each(this.$el.serialize().split('&'), function(component, index) {
         var keyValue = component.split('=');
         var key = decodeURIComponent(keyValue[0]);
         var value = decodeURIComponent(keyValue[1].replace(/\+/g,'%20')).trim();
@@ -64,13 +62,13 @@ define([], function() {
       });
       
       console.log(params);
-      this.eventBus.trigger('log:search', { params : params } );
+      this.eventBus.trigger('query:do', { params : params } );
       
     },
     
     keypress : function(event) {
       if (event.keyCode == 13) {
-        this.query();
+        this.collectParams();
       }
     }
   });
