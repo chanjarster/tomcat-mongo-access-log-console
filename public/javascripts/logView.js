@@ -1,7 +1,9 @@
-//Each Log presents as a tr
+/**
+ * log view (tr)
+ */
 define(
-    ['text!templates/logTemplate.html', 'text!templates/detailTemplate.html'], 
-    function(logTemplate, detailTemplate) {
+    ['text!templates/logTemplate.html'], 
+    function(logTemplate) {
   
       return Backbone.View.extend({
         
@@ -9,14 +11,13 @@ define(
         
         rowTmpl : _.template(logTemplate),
         
-        detailTmpl : _.template(detailTemplate),
-        
         events : {
           'click a' : 'info'
         },
         
         initialize : function(options) {
           this.model = options.model;
+          this.eventBus = options.eventBus;
         },
         
         render: function() {
@@ -25,8 +26,7 @@ define(
         },
         
         info : function(event) {
-          $("#detailModal table").html(this.detailTmpl( { d : this.model }));
-          $("#detailModal").modal();
+          this.eventBus.trigger('detail:refresh', this.model);
           event.preventDefault();
         }
         

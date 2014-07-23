@@ -278,10 +278,7 @@
 				<div class="modal-body">
 
 					<div class="table-responsive">
-						<table class="table table-bordered">
-
-						</table>
-						<!--  -->
+						<table class="table table-bordered"></table>
 					</div>
 
 				</div>
@@ -292,6 +289,34 @@
 		</div>
 	</div><!-- detail info Modal -->
 
+  <div class="modal fade" id="top10urlModal" tabindex="-1" role="dialog" aria-labelledby="" requestDetail"" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title" id="requestDetail">Request Detail</h4>
+        </div>
+        <div class="modal-body">
+        
+	        <div class="btn-group">
+					  <button type="button" class="btn btn-default byTimes">By request times</button>
+					  <button type="button" class="btn btn-default byTotalSeconds">By total seconds</button>
+					  <button type="button" class="btn btn-default bySeconds">By seconds</button>
+					</div>
+					
+          <div class="table-responsive">
+            <table class="table table-bordered"></table>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- top10url Modal -->
 </body>
 
 <script type='text/javascript' src='/jquery/dist/jquery.min.js'></script>

@@ -8,7 +8,7 @@ define([], function(humanReadableSize) {
     events : {
       'click .pagination a'   : 'jump',
       'click #btn-do-query'   : 'collectParams',
-      'click #btn-top-10-url' : 'top10url'
+      'click #btn-top-10-url' : 'openTop10url'
     },
     
     initialize : function(options) {
@@ -65,7 +65,7 @@ define([], function(humanReadableSize) {
     },
     
     collectParams : function() {
-      this.eventBus.trigger("query:collect-params");
+      this.eventBus.trigger("query:collect-params", "query:do");
     },
     
     query : function() {
@@ -116,17 +116,8 @@ define([], function(humanReadableSize) {
       event.preventDefault();
     },
     
-    top10url : function() {
-      $.get('/reports/top10url', {
-        
-        query : JSON.stringify(this.info.params)
-       
-     }, function(result) {
-       
-       console.log(result);
-       
-     }, 'json');
-      
+    openTop10url : function() {
+      this.eventBus.trigger('top10url:open');
     },
     
     render : function() {

@@ -1,3 +1,6 @@
+/**
+ * search form view
+ */
 define([], function() {
   
   return Backbone.View.extend({
@@ -15,10 +18,10 @@ define([], function() {
       // datepicker
       this.$el.find("[name='datetime{date}[gte]']").datepicker({ format : 'yyyy-mm-dd' });
       this.$el.find("[name='datetime{date}[lte]']").datepicker({ format : 'yyyy-mm-dd' });
-      this.listenTo(this.eventBus, 'query:collect-params', this.collectParams);
+      this.listenTo(this.eventBus, 'query:collect-params', this.returnParams);
     },
     
-    collectParams : function() {
+    returnParams : function(callback) {
       
       var params = {};
       
@@ -61,14 +64,13 @@ define([], function() {
         });
       });
       
-      console.log(params);
-      this.eventBus.trigger('query:do', { params : params } );
+      this.eventBus.trigger(callback, { params : params } );
       
     },
     
     keypress : function(event) {
       if (event.keyCode == 13) {
-        this.collectParams();
+        this.returnParams('query:do');
       }
     }
   });
