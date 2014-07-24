@@ -2,14 +2,12 @@
 <!-- powered by http://glyphicons.com/ and http://getbootstrap.com -->
 <html lang="en">
 <head>
-<title><%= title %></title>
-<link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css' />
-<link rel='stylesheet'
-	href='/bootstrap/dist/css/bootstrap-theme.min.css' />
-<link rel="stylesheet"
-	href="/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
-<link rel="stylesheet" href="/bootstrap-datepicker/css/datepicker3.css" />
-<link rel="stylesheet" href="/stylesheets/index.css" />
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css' />
+<!--   <link rel='stylesheet' href='/bootstrap/dist/css/bootstrap-theme.min.css' /> -->
+  <link rel="stylesheet" href="/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+  <link rel="stylesheet" href="/bootstrap-datepicker/css/datepicker3.css" />
+  <link rel="stylesheet" href="/stylesheets/index.css" />
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -266,14 +264,14 @@
 	</div>
 
 
-	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="" requestDetail"" aria-hidden="true">
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="requestDetail" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title" id="requestDetail">Request Detail</h4>
+					<h2 class="modal-title" id="requestDetail">Request Detail</h2>
 				</div>
 				<div class="modal-body">
 
@@ -289,21 +287,21 @@
 		</div>
 	</div><!-- detail info Modal -->
 
-  <div class="modal fade" id="top10urlModal" tabindex="-1" role="dialog" aria-labelledby="" requestDetail"" aria-hidden="true">
+  <div class="modal fade" id="top10urlModal" tabindex="-1" role="dialog" aria-labelledby="top10url" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
           </button>
-          <h4 class="modal-title" id="requestDetail">Request Detail</h4>
+          <h2 class="modal-title" id="top10url">Top 10 URL</h2>
         </div>
         <div class="modal-body">
         
 	        <div class="btn-group">
-					  <button type="button" class="btn btn-default byTimes active">By request times</button>
-					  <button type="button" class="btn btn-default byTotalSeconds">By total seconds</button>
-					  <button type="button" class="btn btn-default bySeconds">By seconds</button>
+					  <button type="button" class="btn btn-info byTimes">By request times</button>
+					  <button type="button" class="btn btn-info byTotalSeconds">By total seconds</button>
+					  <button type="button" class="btn btn-info bySeconds">By seconds</button>
 					</div>
 					
           <div class="table-responsive">

@@ -7,7 +7,7 @@
 <tbody>
   <% _.each(items, function(item, index) { %>
   <tr>
-    <td><%- item.elapsedSeconds %></td>
+    <td><%- Math.round(item.elapsedSeconds * 100) / 100 %></td>
     <td><%- item.url %></td>
   </tr>
   <% }) %>

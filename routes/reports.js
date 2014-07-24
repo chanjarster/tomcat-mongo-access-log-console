@@ -9,10 +9,11 @@ router.get('/top10url/byTimes', function(req, res) {
   if (req.query.query) {
     queryObject = JSON.parse(req.query.query);
   }
-  
+  var condition = mg.parse(queryObject);
+
   var collection = mg.getCollection();
   collection.aggregate([
-                        { $match : queryObject },
+                        { $match : condition },
                         { $group : { _id : "$url", times : { $sum : 1 } } },
                         { $sort : { times : -1} },
                         { $limit : 10 },
@@ -27,10 +28,11 @@ router.get('/top10url/byTotalSeconds', function(req, res) {
   if (req.query.query) {
     queryObject = JSON.parse(req.query.query);
   }
+  var condition = mg.parse(queryObject);
   
   var collection = mg.getCollection();
   collection.aggregate([
-                        { $match : queryObject },
+                        { $match : condition },
                         { $group : { _id : "$url", totalSeconds : { $sum : '$elapsedSeconds' } } },
                         { $sort : { totalSeconds : -1} },
                         { $limit : 10 },
@@ -45,9 +47,10 @@ router.get('/top10url/bySeconds', function(req, res) {
   if (req.query.query) {
     queryObject = JSON.parse(req.query.query);
   }
+  var condition = mg.parse(queryObject);
   
   var collection = mg.getCollection();
-  collection.find(queryObject, { url : 1, elapsedSeconds : 1 }).sort({ elapsedSeconds : -1}).limit(10).toArray(function(err, result) {
+  collection.find(condition, { url : 1, elapsedSeconds : 1 }).sort({ elapsedSeconds : -1}).limit(10).toArray(function(err, result) {
     res.json(result);
   });
 });

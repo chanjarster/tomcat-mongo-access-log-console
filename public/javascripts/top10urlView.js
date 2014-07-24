@@ -26,7 +26,7 @@ define([
       this.$table = this.$el.find('table');
       this.listenTo(this.eventBus, 'top10url:open', function() {
         $("#top10urlModal").modal();
-        this.triggerByTimes();
+        this.$el.find('.byTimes').click();
       }, this);
       this.listenTo(this.eventBus, 'top10url:byTimes:do', this.byTimes);
       this.listenTo(this.eventBus, 'top10url:byTotalSeconds:do', this.byTotalSeconds);
@@ -68,7 +68,7 @@ define([
       $.get('/reports/top10url/bySeconds', {
         query : JSON.stringify(queryOption.params)
       }, function(result) {
-        that.$table.html(bySeconds( { items : result }));
+        that.$table.html(bySecondsTmpl( { items : result }));
       }, 'json');
     },
     
