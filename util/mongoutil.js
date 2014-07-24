@@ -34,8 +34,6 @@ var parse = function(params) {
 
   var condition = {};
   
-  console.log(params);
-  
   _.each(params, function(value, key) {
     
     var matches = paramNameParser.exec(key);
@@ -58,8 +56,9 @@ var parse = function(params) {
     
     
   });
-  
-  console.log(condition);
+
+  console.log('raw param:', params);
+  console.log('condition:', condition);
   return condition;
   
 };
@@ -166,3 +165,38 @@ var mergeObject = function(a, b) {
 };
 
 exports.parse = parse;
+
+/**
+ * mongo datasource
+ */
+var config = require("../config.json");
+var MongoClient = require('mongodb').MongoClient;
+
+var db;
+var defaultCollection;
+
+MongoClient.connect(config.mongo.url, function(err, database) {
+  
+  if (err) {
+    throw err;
+  }
+  
+  db = database;
+  console.log('Connecting to ' + config.mongo.url);
+  
+  defaultCollection = db.collection(config.mongo.collection);
+  console.log('Got collection: ' + config.mongo.collection);
+  
+});
+
+exports.getDB = function() {
+  return db;
+};
+
+exports.getCollection = function(collName) {
+  if(collName) {
+    console.log('Got collection: ' + collName);
+    return db.collection(collName);
+  }
+  return defaultCollection;
+};

@@ -1,11 +1,12 @@
+/**
+ * search form view
+ */
 define([], function() {
   
   return Backbone.View.extend({
     
     events : {
-      'click #btn-toggle-form' : 'toggle',
-      'click #btn-do-query' : 'query',
-      'keypress form' : 'keypress'
+      'keypress *' : 'keypress'
     },
     
     initialize : function(options) {
@@ -13,37 +14,19 @@ define([], function() {
       this.eventBus = options.eventBus;
       
       this.$conditions = this.$el.find('#conditions');
-      this.$toggleBtn = this.$el.find('#btn-toggle-form');
-      this.$form = this.$el.find('form');
       
       // datepicker
       this.$el.find("[name='datetime{date}[gte]']").datepicker({ format : 'yyyy-mm-dd' });
       this.$el.find("[name='datetime{date}[lte]']").datepicker({ format : 'yyyy-mm-dd' });
-      
+      this.listenTo(this.eventBus, 'query:collect-params', this.returnParams);
     },
     
-    toggle : function(event) {
-      var that = this;
-      var $toggleBtn = this.$toggleBtn;
-      
-      this.$conditions.slideToggle(null, function() {
-        if ($(this).is(':hidden')) {
-          $toggleBtn.html('Open');
-          that.eventBus.trigger('view:scrollToBtn');
-        } else {
-          $toggleBtn.html('Close');
-        }
-        
-      });
-    
-    },
-    
-    query : function() {
+    returnParams : function(callback) {
       
       var params = {};
       
       // build query condition
-      _.each(this.$form.serialize().split('&'), function(component, index) {
+      _.each(this.$el.serialize().split('&'), function(component, index) {
         var keyValue = component.split('=');
         var key = decodeURIComponent(keyValue[0]);
         var value = decodeURIComponent(keyValue[1].replace(/\+/g,'%20')).trim();
@@ -81,14 +64,13 @@ define([], function() {
         });
       });
       
-      console.log(params);
-      this.eventBus.trigger('log:search', { params : params } );
+      this.eventBus.trigger(callback, { params : params } );
       
     },
     
     keypress : function(event) {
       if (event.keyCode == 13) {
-        this.query();
+        this.returnParams('query:do');
       }
     }
   });

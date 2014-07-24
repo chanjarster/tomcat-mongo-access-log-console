@@ -1,5 +1,5 @@
 /**
- * Request access logs list view
+ * log list view
  */
 define(['javascripts/logView'], function(LogView) {
   
@@ -23,7 +23,10 @@ define(['javascripts/logView'], function(LogView) {
       this.$logs.empty();
       
       _.each(this.logs, function(log, index) {
-        this.$logs.append(new LogView({ model : log }).render());
+        this.$logs.append(new LogView({ 
+          eventBus : this.eventBus, 
+          model : log 
+        }).render());
       }, this);
       
       this.eventBus.trigger('view:scrollToBtn');

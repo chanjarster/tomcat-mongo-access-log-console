@@ -1,35 +1,31 @@
 <!DOCTYPE html>
+<!-- powered by http://glyphicons.com/ and http://getbootstrap.com -->
 <html lang="en">
 <head>
-<title><%= title %></title>
-<link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css' />
-<link rel='stylesheet'
-	href='/bootstrap/dist/css/bootstrap-theme.min.css' />
-<link rel="stylesheet"
-	href="/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
-<link rel="stylesheet" href="/bootstrap-datepicker/css/datepicker3.css" />
-<link rel="stylesheet" href="/stylesheets/index.css" />
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css' />
+<!--   <link rel='stylesheet' href='/bootstrap/dist/css/bootstrap-theme.min.css' /> -->
+  <link rel="stylesheet" href="/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+  <link rel="stylesheet" href="/bootstrap-datepicker/css/datepicker3.css" />
+  <link rel="stylesheet" href="/stylesheets/index.css" />
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#"><%= title %></a>
 			</div>
-			<!--  
-        <div class="navbar-collapse collapse">
-         <ul class="nav navbar-nav navbar-left">
-           <li class="active"><a href="#" class="">Log Search</a></li>
-           <li><a href="#">Reports</a></li>
-         </ul>
-        </div>
-        -->
+	    <div class="collapse navbar-collapse">
+		    <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#" id="collection-info"></a></li>
+	      </ul>
+	    </div>		
 		</div>
-	</div>
+	</nav>
 
 	<div class="container-fluid">
 
-		<div class="row" id="searchForm">
+		<div class="row">
 
 			<div class="col-lg-12">
 
@@ -37,7 +33,7 @@
 
 					<div class="col-lg-12" id="conditions">
 
-						<form role="form" class="form-horizontal" action="/list/" method="POST">
+						<form role="form" id="searchForm" class="form-horizontal" action="/list/" method="POST">
 
 							<div class="form-group">
 
@@ -206,15 +202,22 @@
 					
 				</div><!-- .row -->
 
-				<div class="row" id="stickyBar">
+				<div class="row" id="queryBar">
 
 					<div class="col-lg-offset-4 col-lg-4 text-center">
-						<a id="btn-do-query" class="btn btn-primary">Search Log</a>
+						<a id="btn-do-query" class="btn btn-primary ">
+						  <span class="glyphicon glyphicon-search"></span>
+						  Query
+						</a>
+						<a id="btn-top-10-url" class="btn btn-primary">
+						  <span class="glyphicon glyphicon-stats"></span>
+						  Top 10 URL
+						</a>
 						<!-- <button id="btn-chart" class="btn btn-primary">Chart</button> -->
-						<a id="btn-toggle-form" class="btn btn-default">Close</a>
 					</div>
 
-					<div id="pagination" class="col-lg-4 text-right">
+					<div class="col-lg-4 text-right">
+					  <span class="collection-info"></span>
 						<ul class="pagination" style="margin: 0px"></ul>
 					</div>
 
@@ -261,22 +264,19 @@
 	</div>
 
 
-	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="" requestDetail"" aria-hidden="true">
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="requestDetail" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title" id="requestDetail">Request Detail</h4>
+					<h2 class="modal-title" id="requestDetail">Request Detail</h2>
 				</div>
 				<div class="modal-body">
 
 					<div class="table-responsive">
-						<table class="table table-bordered">
-
-						</table>
-						<!--  -->
+						<table class="table table-bordered"></table>
 					</div>
 
 				</div>
@@ -287,6 +287,34 @@
 		</div>
 	</div><!-- detail info Modal -->
 
+  <div class="modal fade" id="top10urlModal" tabindex="-1" role="dialog" aria-labelledby="top10url" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+          </button>
+          <h2 class="modal-title" id="top10url">Top 10 URL</h2>
+        </div>
+        <div class="modal-body">
+        
+	        <div class="btn-group">
+					  <button type="button" class="btn btn-info byTimes">By request times</button>
+					  <button type="button" class="btn btn-info byTotalSeconds">By total seconds</button>
+					  <button type="button" class="btn btn-info bySeconds">By seconds</button>
+					</div>
+					
+          <div class="table-responsive">
+            <table class="table table-striped"></table>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- top10url Modal -->
 </body>
 
 <script type='text/javascript' src='/jquery/dist/jquery.min.js'></script>
@@ -309,7 +337,7 @@
 <script src='/requirejs/require.js'></script>
 
 <script>
-  require(['domReady', 'javascripts/index' ], function(domReady, App) {
+  require(['domReady', 'javascripts/index'], function(domReady, App) {
     domReady(function(){
 	    new App({
 	      el : $('body')
