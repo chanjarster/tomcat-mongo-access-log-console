@@ -1,7 +1,7 @@
 /**
  * log detail view
  */
-define(['text!templates/detailTemplate.html'], function(detailTemplate) {
+define(['text!templates/detail.html'], function(detailTemplate) {
   
   return Backbone.View.extend({
     

@@ -2,7 +2,7 @@
  * log view (tr)
  */
 define(
-    ['text!templates/logTemplate.html'], 
+    ['text!templates/log.html'], 
     function(logTemplate) {
   
       return Backbone.View.extend({

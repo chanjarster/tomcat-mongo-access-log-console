@@ -1,0 +1,14 @@
+<thead>
+  <tr>
+    <th>Elapsed Seconds</th>
+    <th>URL</th>
+  </tr>
+</thead>
+<tbody>
+  <% _.each(items, function(item, index) { %>
+  <tr>
+    <td><%- item.elapsedSeconds %></td>
+    <td><%- item.url %></td>
+  </tr>
+  <% }) %>
+</tbody>

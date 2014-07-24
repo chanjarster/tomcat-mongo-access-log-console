@@ -13,10 +13,10 @@ router.get('/top10url/byTimes', function(req, res) {
   var collection = mg.getCollection();
   collection.aggregate([
                         { $match : queryObject },
-                        { $group : { _id : "$url", count : { $sum : 1 } } },
-                        { $sort : { count : -1} },
+                        { $group : { _id : "$url", times : { $sum : 1 } } },
+                        { $sort : { times : -1} },
                         { $limit : 10 },
-                        { $project : { _id : 0, url : '$_id', count : 1 } }
+                        { $project : { _id : 0, url : '$_id', times : 1 } }
                         ], function(err, result) {
     res.json(result);
   });
@@ -31,10 +31,10 @@ router.get('/top10url/byTotalSeconds', function(req, res) {
   var collection = mg.getCollection();
   collection.aggregate([
                         { $match : queryObject },
-                        { $group : { _id : "$url", sumElapsedSeconds : { $sum : '$elapsedSeconds' } } },
-                        { $sort : { sumElapsedSeconds : -1} },
+                        { $group : { _id : "$url", totalSeconds : { $sum : '$elapsedSeconds' } } },
+                        { $sort : { totalSeconds : -1} },
                         { $limit : 10 },
-                        { $project : { _id : 0, url : '$_id', sumElapsedSeconds : 1 } }
+                        { $project : { _id : 0, url : '$_id', totalSeconds : 1 } }
                         ], function(err, result) {
     res.json(result);
   });
