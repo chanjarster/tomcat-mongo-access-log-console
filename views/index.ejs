@@ -213,6 +213,10 @@
 						  <span class="glyphicon glyphicon-stats"></span>
 						  Top 10 URL
 						</a>
+						<a id="btn-request-stats" class="btn btn-primary">
+              <span class="glyphicon glyphicon-stats"></span>
+              Request Statistics
+            </a>
 						<!-- <button id="btn-chart" class="btn btn-primary">Chart</button> -->
 					</div>
 
@@ -315,6 +319,34 @@
       </div>
     </div>
   </div><!-- top10url Modal -->
+  
+    <div class="modal fade" id="requestStatsModal" tabindex="-1" role="dialog" aria-labelledby="requestStats" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+          </button>
+          <h2 class="modal-title" id="top10url">Request Statistics</h2>
+        </div>
+        <div class="modal-body">
+        
+          <div class="btn-group">
+            <button type="button" class="btn btn-info last-24-hours">Last 24 Hour</button>
+            <button type="button" class="btn btn-info last-7-days">Last 7 Days</button>
+            <button type="button" class="btn btn-info last-30-days">Last 30 Days</button>
+          </div>
+          
+          <div class="chart">
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- request statistics Modal -->
 </body>
 
 <script type='text/javascript' src='/jquery/dist/jquery.min.js'></script>
@@ -324,6 +356,7 @@
 <script type='text/javascript' src='/underscore/underscore.js'></script>
 <script type='text/javascript' src='/backbone/backbone.js'></script>
 <script type='text/javascript' src='/smooth-scroll/dist/js/smooth-scroll.min.js'></script>
+<script type='text/javascript' src='/highcharts/highcharts.js'></script>
 
 <script>
   var require = {

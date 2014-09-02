@@ -25,8 +25,9 @@ define([
       this.eventBus = options.eventBus;
       this.$table = this.$el.find('table');
       this.listenTo(this.eventBus, 'top10url:open', function() {
-        $("#top10urlModal").modal();
+        this.$el.modal();
         this.$el.find('.byTimes').click();
+        this.$el.find('.byTimes').addClass('active');
       }, this);
       this.listenTo(this.eventBus, 'top10url:byTimes:do', this.byTimes);
       this.listenTo(this.eventBus, 'top10url:byTotalSeconds:do', this.byTotalSeconds);
@@ -34,14 +35,17 @@ define([
     },
     
     triggerByTimes : function() {
+      this.$el.find('button').removeClass('active');
       this.eventBus.trigger('query:collect-params', 'top10url:byTimes:do');
     },
     
     triggerByTotalSeconds : function() {
+      this.$el.find('button').removeClass('active');
       this.eventBus.trigger('query:collect-params', 'top10url:byTotalSeconds:do');
     },
     
     triggerBySeconds : function() {
+      this.$el.find('button').removeClass('active');
       this.eventBus.trigger('query:collect-params', 'top10url:bySeconds:do');
     },
     

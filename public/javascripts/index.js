@@ -5,10 +5,11 @@ define(
       'javascripts/queryBar',
       'javascripts/collectionInfoView',
       'javascripts/top10urlView',
-      'javascripts/detailView'
+      'javascripts/detailView',
+      'javascripts/requestStatsView',
     ],
     
-    function(FormView, LogListView, QueryBar, CollectionInfoView, Top10urlView, DetailView) {
+    function(FormView, LogListView, QueryBar, CollectionInfoView, Top10urlView, DetailView, RequestStatsView) {
       
       return Backbone.View.extend({
        
@@ -16,12 +17,13 @@ define(
       
           this.eventBus = _.extend(Backbone.Events);
           
-          var $searchForm = $('#searchForm'),
-              $queryBar = $('#queryBar'),
-              $logList = $("#logList"),
-              $collectionInfo = $("#collection-info"),
-              $top10url = $('#top10urlModal'),
-              $detail = $('#detailModal')
+          var $searchForm = $('#searchForm')
+              , $queryBar = $('#queryBar')
+              , $logList = $("#logList")
+              , $collectionInfo = $("#collection-info")
+              , $top10url = $('#top10urlModal')
+              , $detail = $('#detailModal')
+              , $requestStats = $('#requestStatsModal');
               ;
           
           new FormView({
@@ -54,6 +56,12 @@ define(
             el : $detail,
             eventBus : this.eventBus
           });
+          
+          new RequestStatsView({
+            el : $requestStats,
+            eventBus : this.eventBus
+          });
+          
         }
       
       });

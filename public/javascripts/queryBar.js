@@ -8,7 +8,8 @@ define([], function(humanReadableSize) {
     events : {
       'click .pagination a'   : 'jump',
       'click #btn-do-query'   : 'collectParams',
-      'click #btn-top-10-url' : 'openTop10url'
+      'click #btn-top-10-url' : 'openTop10url',
+      'click #btn-request-stats' : 'openRequestStats'
     },
     
     initialize : function(options) {
@@ -118,6 +119,10 @@ define([], function(humanReadableSize) {
     
     openTop10url : function() {
       this.eventBus.trigger('top10url:open');
+    },
+    
+    openRequestStats : function () {
+      this.eventBus.trigger('requestStats:open');
     },
     
     render : function() {
