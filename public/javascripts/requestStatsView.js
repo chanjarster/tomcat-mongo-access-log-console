@@ -16,10 +16,13 @@ define([],
       
       this.eventBus = options.eventBus;
       this.$table = this.$el.find('table');
+      var that = this;
+      this.$el.on('shown.bs.modal', function() {
+        that.$el.find('.last-24-hours').click();
+        that.$el.find('.last-24-hours').addClass('active');
+      });
       this.listenTo(this.eventBus, 'requestStats:open', function() {
         this.$el.modal();
-        this.$el.find('.last-24-hours').click();
-        this.$el.find('.last-24-hours').addClass('active');
       }, this);
       this.listenTo(this.eventBus, 'requestStats:last24hours:do', this.last24hours);
       this.listenTo(this.eventBus, 'requestStats:last7days:do', this.last7days);
